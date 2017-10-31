@@ -5,6 +5,14 @@
  */
 package com.mycompany.appgrafica;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author alumno
@@ -15,7 +23,8 @@ public class GUI extends javax.swing.JFrame {
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
+        initComponents();    
+ 
     }
 
     /**
@@ -84,6 +93,11 @@ public class GUI extends javax.swing.JFrame {
         cancelarButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         panelgestiondepemp.setBorder(javax.swing.BorderFactory.createTitledBorder("gestionempleadodepartamentos"));
 
@@ -457,7 +471,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
+                        .addGap(30, 30, 30)
                         .addGroup(panelprincipalempleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelprincipalempleadosLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -532,7 +546,7 @@ public class GUI extends javax.swing.JFrame {
         pestanaempleados.setLayout(pestanaempleadosLayout);
         pestanaempleadosLayout.setHorizontalGroup(
             pestanaempleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelprincipalempleados, javax.swing.GroupLayout.PREFERRED_SIZE, 771, Short.MAX_VALUE)
+            .addComponent(panelprincipalempleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pestanaempleadosLayout.setVerticalGroup(
             pestanaempleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,6 +575,20 @@ public class GUI extends javax.swing.JFrame {
 
     private void departamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departamentosActionPerformed
         Panelpestanaprincipal.setSelectedComponent(gestordepartamentos);
+        Statement stat;
+        try {
+            stat = conexion.createStatement();
+            String sql = "Select * FROM departamentos";
+            result = stat.executeQuery(sql);
+            result.first();
+            nomDep.setText(result.getString("dept_no"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }//GEN-LAST:event_departamentosActionPerformed
 
     private void empleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosActionPerformed
@@ -595,6 +623,15 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_atrasButton1ActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -625,7 +662,16 @@ public class GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI().setVisible(true);
+                GUI a = new GUI();
+                 try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "1234");
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
             }
         });
     }
@@ -688,4 +734,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton ultimoButton;
     private javax.swing.JButton ultimoButton1;
     // End of variables declaration//GEN-END:variables
+    static Connection conexion =null;
+    static ResultSet result = null;
 }
