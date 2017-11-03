@@ -23,8 +23,15 @@ public class GUI extends javax.swing.JFrame {
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();    
- 
+        initComponents(); 
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "1234");
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     /**
@@ -93,6 +100,11 @@ public class GUI extends javax.swing.JFrame {
         cancelarButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -165,11 +177,11 @@ public class GUI extends javax.swing.JFrame {
         loc.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         loc.setText("Localización");
 
-        numDeTexfield.setText("jTextField1");
-
-        nomDeTexfield.setText("jTextField2");
-
-        locTexfield.setText("jTextField3");
+        numDeTexfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numDeTexfieldActionPerformed(evt);
+            }
+        });
 
         consultaButton.setText("Borrar");
 
@@ -325,27 +337,11 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel3.setText("Dir:");
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
         jLabel4.setText("Fecha_alt:");
 
         jLabel5.setText("Salario:");
 
         jLabel6.setText("Comisión:");
-
-        jTextField4.setText("jTextField3");
-
-        jTextField5.setText("jTextField2");
-
-        jTextField6.setText("jTextField1");
-
-        jTextField7.setText("jTextField3");
-
-        jTextField8.setText("jTextField3");
 
         jLabel7.setText("Dept_no:");
 
@@ -574,21 +570,11 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void departamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departamentosActionPerformed
+ 
+        
         Panelpestanaprincipal.setSelectedComponent(gestordepartamentos);
-        Statement stat;
-        try {
-            stat = conexion.createStatement();
-            String sql = "Select * FROM departamentos";
-            result = stat.executeQuery(sql);
-            result.first();
-            nomDep.setText(result.getString("dept_no"));
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
+       
+          
     }//GEN-LAST:event_departamentosActionPerformed
 
     private void empleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosActionPerformed
@@ -632,6 +618,28 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowClosed
 
+    private void numDeTexfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numDeTexfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numDeTexfieldActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Statement stat;
+        try {
+            stat = conexion.createStatement();
+            String sql = "Select * FROM departamentos";
+            result = stat.executeQuery(sql);
+            result.first();
+            numDeTexfield.setText(result.getString("dept_no"));
+            result.next();
+            nomDeTexfield.setText(result.getString("dnombre"));
+            result.next();
+            locTexfield.setText(result.getString("loc"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formComponentShown
+
     /**
      * @param args the command line arguments
      */
@@ -662,20 +670,10 @@ public class GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GUI a = new GUI();
-                 try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "1234");
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            new GUI().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane Panelpestanaprincipal;
     private javax.swing.JButton aceptarButton;
