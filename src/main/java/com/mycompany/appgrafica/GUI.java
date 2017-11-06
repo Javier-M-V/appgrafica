@@ -66,7 +66,7 @@ public class GUI extends javax.swing.JFrame {
         atrasDepartamentosButton = new javax.swing.JButton();
         primeroDepartamentosButton = new javax.swing.JButton();
         aceptarButtonGestionDept = new javax.swing.JButton();
-        cancelarButton = new javax.swing.JButton();
+        cancelarGestionDepartamentosButton = new javax.swing.JButton();
         insertarDepartamentosButton = new javax.swing.JButton();
         homeDepartamentosButton = new javax.swing.JButton();
         pestanaempleados = new javax.swing.JPanel();
@@ -188,6 +188,11 @@ public class GUI extends javax.swing.JFrame {
         borrarDepartamentosButton.setText("Borrar");
 
         modificarDepartamentosButton.setText("Modificar");
+        modificarDepartamentosButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarDepartamentosButtonActionPerformed(evt);
+            }
+        });
 
         consultarDepartamentosButton.setText("Consultar");
         consultarDepartamentosButton.addActionListener(new java.awt.event.ActionListener() {
@@ -231,10 +236,10 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        cancelarButton.setText("Cancelar");
-        cancelarButton.addActionListener(new java.awt.event.ActionListener() {
+        cancelarGestionDepartamentosButton.setText("Cancelar");
+        cancelarGestionDepartamentosButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarButtonActionPerformed(evt);
+                cancelarGestionDepartamentosButtonActionPerformed(evt);
             }
         });
 
@@ -256,7 +261,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(adelanteDepartamentosButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ultimoDepartamentosButton))
-                    .addComponent(cancelarButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(cancelarGestionDepartamentosButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(167, 167, 167))
         );
         panelsecundariogestiondepLayout.setVerticalGroup(
@@ -271,7 +276,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(panelsecundariogestiondepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aceptarButtonGestionDept)
-                    .addComponent(cancelarButton))
+                    .addComponent(cancelarGestionDepartamentosButton))
                 .addContainerGap(184, Short.MAX_VALUE))
         );
 
@@ -757,7 +762,7 @@ public class GUI extends javax.swing.JFrame {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         aceptarButtonGestionDept.setEnabled(true);
-        cancelarButton.setEnabled(false);
+        cancelarGestionDepartamentosButton.setEnabled(false);
         consultarDepartamentosButton.setEnabled(false);
         modificarDepartamentosButton.setEnabled(false);
         borrarDepartamentosButton.setEnabled(false);
@@ -783,6 +788,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void aceptarButtonGestionDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarButtonGestionDeptActionPerformed
         Statement stat;
+        
         if(((!borrarDepartamentosButton.isEnabled() && !consultarDepartamentosButton.isEnabled()) 
                 && !modificarDepartamentosButton.isEnabled()) && !borrarDepartamentosButton.isEnabled()) {
             consultarDepartamentosButton.setEnabled(true);
@@ -795,6 +801,7 @@ public class GUI extends javax.swing.JFrame {
             numDeTexfield.setEnabled(false);
             nomDeTexfield.setEnabled(false);
             locTexfield.setEnabled(false);
+            
         }
         
         else if(consultarDepartamentosButton.isEnabled() && (!(modificarDepartamentosButton.isEnabled()))){
@@ -816,18 +823,43 @@ public class GUI extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
+            cancelarGestionDepartamentosButton.setEnabled(true);
             consultarDepartamentosButton.setEnabled(false);
+            numDeTexfield.setEditable(false);
             nomDeTexfield.setEnabled(true);
             locTexfield.setEnabled(true);
+            nomDeTexfield.setEditable(true);
+            locTexfield.setEditable(true);
             nomDeTexfield.setText(dnombres);
             locTexfield.setText(locs);
             modificarDepartamentosButton.setEnabled(true);
             borrarDepartamentosButton.setEnabled(true);
+            primeroDepartamentosButton.setEnabled(false);
+            atrasDepartamentosButton.setEnabled(false);
+            adelanteDepartamentosButton.setEnabled(false);
+            ultimoDepartamentosButton.setEnabled(false);
         }
-        /*else if (){
+        else if(modificarDepartamentosButton.isEnabled()&& borrarDepartamentosButton.isEnabled()){
+                primeroDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+                adelanteDepartamentosButton.setEnabled(false);
+                ultimoDepartamentosButton.setEnabled(false);
+        }
+        else if (modificarDepartamentosButton.isEnabled()&&(!(borrarDepartamentosButton.isEnabled()))){
         
+                primeroDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+                adelanteDepartamentosButton.setEnabled(false);
+                ultimoDepartamentosButton.setEnabled(false);
+                /*manejar la opción de UPDATE*/
+        }
+        else if (!(modificarDepartamentosButton.isEnabled())&& borrarDepartamentosButton.isEnabled()){
         
-        }*/
+                primeroDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+                adelanteDepartamentosButton.setEnabled(false);
+                ultimoDepartamentosButton.setEnabled(false);
+        }          /*manejar la opción de DELETE*/
     }//GEN-LAST:event_aceptarButtonGestionDeptActionPerformed
 
     private void homeDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeDepartamentosButtonActionPerformed
@@ -884,15 +916,21 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CancelarEmpleadosButtonActionPerformed
 
-    private void cancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarButtonActionPerformed
+    private void cancelarGestionDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarGestionDepartamentosButtonActionPerformed
         numDeTexfield.setText("");
         nomDeTexfield.setText("");    
         locTexfield.setText("");
-        modificarDepartamentosButton.setEnabled(true);
+        modificarDepartamentosButton.setEnabled(false);
         consultarDepartamentosButton.setEnabled(true);
         borrarDepartamentosButton.setEnabled(false);
         
-    }//GEN-LAST:event_cancelarButtonActionPerformed
+    }//GEN-LAST:event_cancelarGestionDepartamentosButtonActionPerformed
+
+    private void modificarDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarDepartamentosButtonActionPerformed
+        /* if borrar is enabled,
+                borrar disabled
+                */      
+    }//GEN-LAST:event_modificarDepartamentosButtonActionPerformed
         
     /**
      * @param args the command line arguments
@@ -939,7 +977,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton atrasDepartamentosButton;
     private javax.swing.JButton atrasEmpleadosButton;
     private javax.swing.JButton borrarDepartamentosButton;
-    private javax.swing.JButton cancelarButton;
+    private javax.swing.JButton cancelarGestionDepartamentosButton;
     private javax.swing.JTextField comisionjTextField;
     private javax.swing.JButton consultarDepartamentosButton;
     private javax.swing.JButton departamentosButton;
