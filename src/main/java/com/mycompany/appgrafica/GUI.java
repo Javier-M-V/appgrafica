@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sun.rmi.runtime.Log;
 
 /**
  *
@@ -279,6 +280,11 @@ public class GUI extends javax.swing.JFrame {
         );
 
         insertarDepartamentosButton.setText("Insertar");
+        insertarDepartamentosButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarDepartamentosButtonActionPerformed(evt);
+            }
+        });
 
         homeDepartamentosButton.setText("Home");
         homeDepartamentosButton.addActionListener(new java.awt.event.ActionListener() {
@@ -786,38 +792,65 @@ public class GUI extends javax.swing.JFrame {
     private void aceptarButtonGestionDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarButtonGestionDeptActionPerformed
         Statement stat;
         
-        if(((!borrarDepartamentosButton.isEnabled() && !consultarDepartamentosButton.isEnabled()) 
-                && !modificarDepartamentosButton.isEnabled()) && !borrarDepartamentosButton.isEnabled()) {
-            consultarDepartamentosButton.setEnabled(true);
-            modificarDepartamentosButton.setEnabled(true);
-            borrarDepartamentosButton.setEnabled(false);
-            insertarDepartamentosButton.setEnabled(true);
-            numDeTexfield.setText("");
-            nomDeTexfield.setText("");
-            locTexfield.setText("");
-            numDeTexfield.setEnabled(false);
-            nomDeTexfield.setEnabled(false);
-            locTexfield.setEnabled(false);
+        switch(opcion){
+        
+            case 0:
+                consultarDepartamentosButton.setEnabled(true);
+                modificarDepartamentosButton.setEnabled(false);
+                borrarDepartamentosButton.setEnabled(false);
+                insertarDepartamentosButton.setEnabled(true);
+                numDeTexfield.setText("");
+                nomDeTexfield.setText("");
+                locTexfield.setText("");
+                numDeTexfield.setEnabled(false);
+                nomDeTexfield.setEnabled(false);
+                locTexfield.setEnabled(false);
+                adelanteDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+                primeroDepartamentosButton.setEnabled(false);
+                ultimoDepartamentosButton.setEnabled(false);
+                break;
             
+            case 1: 
+                break;
+                
+            case 2: 
+                break;
+                
+                
+            case 3: 
+                break;
+                
+                
+                
+            case 4: 
+                break;
+            default:
+                break;
+        
+            }
         }
         //consultas
-        else if(consultarDepartamentosButton.isEnabled() && (!(modificarDepartamentosButton.isEnabled()))){
+        /*if(consultarDepartamentosButton.isEnabled() && (!(modificarDepartamentosButton.isEnabled()))){
             
+            int numde = 0;
             String dnombres="";
             String locs="";
             String getext = numDeTexfield.getText();
             if(!getext.isEmpty()){
                 try {
                     stat = conexion.createStatement();
-                    String sql = "Select * FROM departamentos WHERE dept_no ="+getext;
+                    String sql = "Select * FROM departamentos WHERE dept_no ="+Integer.parseInt(numDeTexfield.getText());
                     result = stat.executeQuery(sql);
                     result.first();
+                    numde = result.getInt("dept_no");
                     dnombres = dnombres+result.getString("dnombre");
                     locs= locs+result.getString("loc");
 
                     while(result.next()){
-                       dnombres = dnombres+result.getString("dnombre")+",";
-                        locs= locs+result.getString("loc")+",";
+                       numde = result.getInt("dept_no");
+                       dnombres = dnombres+result.getString("dnombre");
+                       locs= locs+result.getString("loc");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -831,6 +864,7 @@ public class GUI extends javax.swing.JFrame {
             locTexfield.setEnabled(true);
             nomDeTexfield.setEditable(true);
             locTexfield.setEditable(true);
+            numDeTexfield.setText(Integer.toString(numde));
             nomDeTexfield.setText(dnombres);
             locTexfield.setText(locs);
             modificarDepartamentosButton.setEnabled(true);
@@ -858,29 +892,50 @@ public class GUI extends javax.swing.JFrame {
                 String nombrelocactualizar = locTexfield.getText();
                 
                 String sql="UPDATE departamentos SET dnombre='"+nombreactualizar+"',loc='"+nombrelocactualizar+"'WHERE dept_no="+numDeTexfield.getText();
+            
                 stat = conexion.createStatement();
                 stat.executeLargeUpdate(sql);
+                 System.out.println("update");
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else if (!(modificarDepartamentosButton.isEnabled())&& borrarDepartamentosButton.isEnabled()){
+        /*else if (!(modificarDepartamentosButton.isEnabled())&& borrarDepartamentosButton.isEnabled()){
         
                 primeroDepartamentosButton.setEnabled(false);
                 atrasDepartamentosButton.setEnabled(false);
                 adelanteDepartamentosButton.setEnabled(false);
                 ultimoDepartamentosButton.setEnabled(false);
-        }          /*manejar la opción de DELETE*/
+                 System.out.println("delete");
+        }        manejar la opción de DELETE
         
         else if(modificarDepartamentosButton.isEnabled()&&borrarDepartamentosButton.isEnabled()
                 &&consultarDepartamentosButton.isEnabled()&&modificarDepartamentosButton.isEnabled()){
                 numDeTexfield.setText("");
                 nomDeTexfield.setText("");    
                 locTexfield.setText("");
+                System.out.println("set");
+        
+        }
+        else if(insertarDepartamentosButton.isEnabled()&&!consultarDepartamentosButton.isEnabled()
+                &&!modificarDepartamentosButton.isEnabled()&&!borrarDepartamentosButton.isEnabled()){
+            System.out.println("Hola");
+            try {
+                String update = "INSERT INTO departamentos(dept_no,dnombre,loc)VALUES("+Integer.parseInt(numDeTexfield.getText())+",'"+nomDeTexfield.getText()+"','"+locTexfield.getText()+"')";
+                Log.getLog(update, "QQQQQQQQ", WIDTH);
+                Statement statement = conexion.createStatement();
+                Log.getLog(update, "SSSSS", WIDTH);
+                statement.executeLargeUpdate(update);
+                Log.getLog(update, "RRRRR", WIDTH);
+             
+            } catch (SQLException ex) {
+                
+            }
+            manejo de los instert
         
         }
     }//GEN-LAST:event_aceptarButtonGestionDeptActionPerformed
-
+*/
     private void homeDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeDepartamentosButtonActionPerformed
          Panelpestanaprincipal.setSelectedComponent(pestanamenuprincipal);
     }//GEN-LAST:event_homeDepartamentosButtonActionPerformed
@@ -928,7 +983,12 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_empleadosBorrarButtonActionPerformed
 
     private void empleadosInsertarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosInsertarButtonActionPerformed
-        // TODO add your handling code here:
+        //if(insertarDepartamentosButton.isEnabled()&&consultarDepartamentosButton.isEnabled()&&!primeroDepartamentosButton.isEnabled()){
+        
+           
+            
+        
+        //}
     }//GEN-LAST:event_empleadosInsertarButtonActionPerformed
 
     private void CancelarEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEmpleadosButtonActionPerformed
@@ -947,6 +1007,10 @@ public class GUI extends javax.swing.JFrame {
             numDeTexfield.setEnabled(true);
             nomDeTexfield.setEnabled(true);
             locTexfield.setEnabled(true);
+            primeroDepartamentosButton.setEnabled(false);
+            ultimoDepartamentosButton.setEnabled(false);
+            atrasDepartamentosButton.setEnabled(false);
+            adelanteDepartamentosButton.setEnabled(false);
     
     }//GEN-LAST:event_cancelarGestionDepartamentosButtonActionPerformed
 
@@ -955,6 +1019,17 @@ public class GUI extends javax.swing.JFrame {
             borrarDepartamentosButton.setEnabled(false);
         }      
     }//GEN-LAST:event_modificarDepartamentosButtonActionPerformed
+
+    private void insertarDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarDepartamentosButtonActionPerformed
+        
+        consultarDepartamentosButton.setEnabled(false);
+        numDeTexfield.setEnabled(true);
+        locTexfield.setEnabled(true);
+        nomDeTexfield.setEnabled(true);
+        numDeTexfield.setEditable(true);
+        locTexfield.setEditable(true);
+        nomDeTexfield.setEditable(true);
+    }//GEN-LAST:event_insertarDepartamentosButtonActionPerformed
         
     /**
      * @param args the command line arguments
@@ -1050,4 +1125,5 @@ public class GUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     static Connection conexion =null;
     static ResultSet result = null;
+    static int opcion=0;//caso base, consultar, modificar, borrar, insertar
 }
