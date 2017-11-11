@@ -112,6 +112,12 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        Panelpestanaprincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                PanelpestanaprincipalComponentShown(evt);
+            }
+        });
+
         panelgestiondepemp.setBorder(javax.swing.BorderFactory.createTitledBorder("gestionempleadodepartamentos"));
 
         empleadosButton.setText("Ir a gestión de empleados");
@@ -281,7 +287,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(panelsecundariogestiondepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aceptarButtonGestionDept)
                     .addComponent(cancelarGestionDepartamentosButton))
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         insertarDepartamentosButton.setText("Insertar");
@@ -362,7 +368,7 @@ public class GUI extends javax.swing.JFrame {
         );
         gestordepartamentosLayout.setVerticalGroup(
             gestordepartamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelprincipalgestiondepartamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelprincipalgestiondepartamentos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         Panelpestanaprincipal.addTab("Gestión departamentos", gestordepartamentos);
@@ -643,9 +649,10 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Panelpestanaprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -764,7 +771,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         Statement stat;
-        try {
+        try {//DEPARTAMENTOS
             stat = conexion.createStatement();
             String sql = "Select * FROM departamentos";
             result = stat.executeQuery(sql);
@@ -795,6 +802,44 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        try {//EMPLEADOS
+            stat = conexion.createStatement();
+            String sql = "Select * FROM empleados";
+            result = stat.executeQuery(sql);
+            result.first();
+            ensenyarResult(result);
+            
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        aceptarEmpleadosButton.setEnabled(true);
+        CancelarEmpleadosButton.setEnabled(true);
+        empleadosConstultarButton.setEnabled(false);
+        empleadosBorrarButton.setEnabled(false);
+        empleadosInsertarButton.setEnabled(false);
+        insertarDepartamentosButton.setEnabled(false);
+        homeDepartamentosButton.setEnabled(true);
+        empNojTextField.setEditable(false);
+        apellidosjTextField.setEditable(false);
+        dirjTextField.setEditable(false);
+        oficiojTextField.setEditable(false);
+        fechajTextField.setEditable(false);
+        salariojTextField.setEditable(false);
+        comisionjTextField.setEditable(false);
+     
+        
+        try {
+            if(result.isFirst()){
+                primeroEmpleadosButton.setEnabled(false);
+                atrasEmpleadosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formComponentShown
 
     private void aceptarEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarEmpleadosButtonActionPerformed
@@ -813,11 +858,7 @@ public class GUI extends javax.swing.JFrame {
                 
             default:
                 break;
-        
-        
         }
-        
-        
     }//GEN-LAST:event_aceptarEmpleadosButtonActionPerformed
 
     private void aceptarButtonGestionDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarButtonGestionDeptActionPerformed
@@ -1036,8 +1077,49 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_borrarDepartamentosButtonActionPerformed
 
     private void panelprincipalempleadosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelprincipalempleadosComponentShown
-        // TODO add your handling code here:
+         Statement stat;
+        try {
+            stat = conexion.createStatement();
+            String sql = "Select * FROM empleados";
+            result = stat.executeQuery(sql);
+            result.first();
+            empNojTextField.setText(result.getString("emp_no"));
+            apellidosjTextField.setText(result.getString("apellido"));
+            dirjTextField.setText(result.getString("oficio"));
+            oficiojTextField.setText(result.getString("dir"));
+            fechajTextField.setText(result.getString("fecha_alt"));
+            salariojTextField.setText(result.getString("salario"));
+            comisionjTextField.setText(result.getString("comision"));
+            departamentosButton.setText(result.getString("dept_no"));
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        aceptarButtonGestionDept.setEnabled(true);
+        cancelarGestionDepartamentosButton.setEnabled(true);
+        consultarDepartamentosButton.setEnabled(false);
+        modificarDepartamentosButton.setEnabled(false);
+        borrarDepartamentosButton.setEnabled(false);
+        insertarDepartamentosButton.setEnabled(false);
+        homeDepartamentosButton.setEnabled(true);
+        numDeTexfield.setEditable(false);
+        nomDeTexfield.setEditable(false);
+        locTexfield.setEditable(false);
+        
+        try {
+            if(result.isFirst()){
+                primeroEmpleadosButton.setEnabled(false);
+                atrasEmpleadosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_panelprincipalempleadosComponentShown
+
+    private void PanelpestanaprincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_PanelpestanaprincipalComponentShown
+      
+    }//GEN-LAST:event_PanelpestanaprincipalComponentShown
       
     private void desactivarflechas (){
     
@@ -1142,4 +1224,19 @@ public class GUI extends javax.swing.JFrame {
     static Connection conexion =null;
     static ResultSet result = null;
     static int opcion=0;//caso base, consultar, modificar, borrar, insertar
+
+    private void ensenyarResult(ResultSet result) {
+        try {
+            empNojTextField.setText(result.getString("dept_no"));
+            apellidosjTextField.setText(result.getString("apellido"));
+            dirjTextField.setText(result.getString("oficio"));
+            oficiojTextField.setText(result.getString("dir"));
+            fechajTextField.setText(result.getString("fecha_alt"));
+            salariojTextField.setText(result.getString("salario"));
+            comisionjTextField.setText(result.getString("comision"));
+            deptNoEmpleadosjTextField.setText(result.getString("dept_no"));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
