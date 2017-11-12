@@ -745,16 +745,55 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ultimoDepartamentosButtonActionPerformed
 
     private void adelanteEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteEmpleadosButtonActionPerformed
-       
+        try {
+            if(result.next()){
+                setAlltext(result);
+                adelanteEmpleadosButton.setEnabled(true);
+                ultimoEmpleadosButton.setEnabled(true);
+                primeroEmpleadosButton.setEnabled(true);
+                atrasEmpleadosButton.setEnabled(true);
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
             
     }//GEN-LAST:event_adelanteEmpleadosButtonActionPerformed
 
     private void ultimoEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoEmpleadosButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            if(result.last()){
+                setAlltext(result);
+                adelanteEmpleadosButton.setEnabled(false);
+                ultimoEmpleadosButton.setEnabled(false);
+                primeroEmpleadosButton.setEnabled(true);
+                atrasEmpleadosButton.setEnabled(true);
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ultimoEmpleadosButtonActionPerformed
 
     private void atrasEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasEmpleadosButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            if(result.previous()){
+                setAlltext(result);
+                adelanteEmpleadosButton.setEnabled(true);
+                atrasEmpleadosButton.setEnabled(true);
+                primeroEmpleadosButton.setEnabled(true);
+                atrasEmpleadosButton.setEnabled(true);
+                
+            }
+            else{
+                    adelanteDepartamentosButton.setEnabled(false);
+                    atrasDepartamentosButton.setEnabled(false);
+                    adelanteDepartamentosButton.setEnabled(true);
+                    ultimoDepartamentosButton.setEnabled(true);
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_atrasEmpleadosButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -846,6 +885,9 @@ public class GUI extends javax.swing.JFrame {
         
         switch(opcion){
         
+            case 0:
+                break;
+            
             case 1:
                 break;
                 
@@ -954,9 +996,7 @@ public class GUI extends javax.swing.JFrame {
                 }
                 opcion=0;
                 break;
-                
-                
-                
+      
             case 4: //borrado
                 desactivarflechas();
                 String delete = "DELETE FROM departamentos WHERE dept_no ="+Integer.parseInt(numDeTexfield.getText());
@@ -1005,7 +1045,18 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_salariojTextFieldActionPerformed
 
     private void primeroEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeroEmpleadosButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            if(result.first()){
+                setAlltext(result);
+                adelanteEmpleadosButton.setEnabled(true);
+                ultimoEmpleadosButton.setEnabled(true);
+                primeroEmpleadosButton.setEnabled(false);
+                atrasEmpleadosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+               
     }//GEN-LAST:event_primeroEmpleadosButtonActionPerformed
 
     private void empleadosConstultarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosConstultarButtonActionPerformed
@@ -1083,6 +1134,7 @@ public class GUI extends javax.swing.JFrame {
             String sql = "Select * FROM empleados";
             result = stat.executeQuery(sql);
             result.first();
+            setAlltext( result);
             empNojTextField.setText(result.getString("emp_no"));
             apellidosjTextField.setText(result.getString("apellido"));
             dirjTextField.setText(result.getString("oficio"));
@@ -1238,5 +1290,21 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void setAlltext(ResultSet result) {
+        try {
+            empNojTextField.setText(result.getString("emp_no"));
+            apellidosjTextField.setText(result.getString("apellido"));
+            dirjTextField.setText(result.getString("oficio"));
+            oficiojTextField.setText(result.getString("dir"));
+            fechajTextField.setText(result.getString("fecha_alt"));
+            salariojTextField.setText(result.getString("salario"));
+            comisionjTextField.setText(result.getString("comision"));
+            departamentosButton.setText(result.getString("dept_no"));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 }
