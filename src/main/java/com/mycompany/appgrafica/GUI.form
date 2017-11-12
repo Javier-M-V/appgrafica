@@ -180,7 +180,7 @@
                                       <Component id="nomDeTexfield" alignment="0" max="32767" attributes="0"/>
                                       <Component id="locTexfield" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
                               </Group>
                               <Component id="panelsecundariogestiondep" max="32767" attributes="0"/>
                           </Group>
@@ -295,7 +295,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="258" max="32767" attributes="0"/>
+                              <EmptySpace pref="260" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="primeroDepartamentosButton" min="-2" max="-2" attributes="0"/>
