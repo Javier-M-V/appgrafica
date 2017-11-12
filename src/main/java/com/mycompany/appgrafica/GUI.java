@@ -918,7 +918,9 @@ public class GUI extends javax.swing.JFrame {
    
                 try {
                      //TODO: reparar fechas, porque con fecha NO VA
-                    String update = "INSERT INTO empleados(emp_no,apellido,oficio, dir,salario,comision, dept_no)VALUES"+"("+Integer.parseInt(empNojTextField.getText())+",'"+apellidosjTextField.getText()+"','"+oficiojTextField.getText()+"',"+Integer.parseInt(dirjTextField.getText())+/*","+new java.util.Date()+*/","+Double.parseDouble(salariojTextField.getText())+","+Double.parseDouble(comisionjTextField.getText())+","+Integer.parseInt(deptNoEmpleadosjTextField.getText())+")";
+                    java.util.Date f = new java.util.Date();
+                    java.sql.Date fsql= new Date(f.getTime());
+                    String update = "INSERT INTO empleados(emp_no,apellido,oficio, dir,fecha_alt, salario,comision, dept_no)VALUES"+"("+Integer.parseInt(empNojTextField.getText())+",'"+apellidosjTextField.getText()+"','"+oficiojTextField.getText()+"',"+Integer.parseInt(dirjTextField.getText())+","+fsql+","+Double.parseDouble(salariojTextField.getText())+","+Double.parseDouble(comisionjTextField.getText())+","+Integer.parseInt(deptNoEmpleadosjTextField.getText())+")";
                     Statement statement = conexion.createStatement();
                     System.out.println(update);
                     statement.executeLargeUpdate(update);
