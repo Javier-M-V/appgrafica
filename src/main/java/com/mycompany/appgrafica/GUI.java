@@ -8,11 +8,13 @@ package com.mycompany.appgrafica;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sun.rmi.runtime.Log;
 
 /**
@@ -897,7 +899,41 @@ public class GUI extends javax.swing.JFrame {
                     
                 break;
             
-            case 1://consultar
+            case 1://consulta
+         
+                try {
+                    String consulta="SELECT * FROM empleados WHERE emp_no="+Integer.parseInt(empNojTextField.getText());
+                    Statement stat = conexion.createStatement();
+                    result = stat.executeQuery(consulta);
+                    result.first();
+                    int numde= result.getInt("dept_no");
+                    String apell = result.getString("apellido");
+                    String ofi = result.getString("oficio");
+                    int dir=result.getInt("dir");
+                    java.sql.Date hoy = result.getDate("fecha_alt");
+                    float sal = result.getFloat("salario");
+                    float comi = result.getFloat("comision");
+                    int depno = result.getInt("dept_no");
+                    setEnableAllTextFieldsEmpleados();
+                    empNojTextField.setText(Integer.toString(numde));
+                    apellidosjTextField.setText(apell);
+                    oficiojTextField.setText(ofi);
+                    dirjTextField.setText(Integer.toString(dir));
+                    fechajTextField.setText(hoy.toString());
+                    salariojTextField.setText(Float.toString(sal));
+                    comisionjTextField.setText(Float.toString(comi));
+                    deptNoEmpleadosjTextField.setText(Integer.toString(depno));
+                    aceptarEmpleadosButton.setEnabled(false);
+                    empleadosConstultarButton.setEnabled(false);
+                    empleadosBorrarButton.setEnabled(true);
+                    empleadosModificarButton.setEnabled(true);
+                    empleadosInsertarButton.setEnabled(false);
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, ex);
+                }
+                
                 
                 break;
                 
@@ -917,16 +953,26 @@ public class GUI extends javax.swing.JFrame {
             case 3: //inserción
    
                 try {
-                     //TODO: reparar fechas, porque con fecha NO VA
                     java.util.Date f = new java.util.Date();
                     java.sql.Date fsql= new Date(f.getTime());
-                    String update = "INSERT INTO empleados(emp_no,apellido,oficio, dir,fecha_alt, salario,comision, dept_no)VALUES"+"("+Integer.parseInt(empNojTextField.getText())+",'"+apellidosjTextField.getText()+"','"+oficiojTextField.getText()+"',"+Integer.parseInt(dirjTextField.getText())+","+fsql+","+Double.parseDouble(salariojTextField.getText())+","+Double.parseDouble(comisionjTextField.getText())+","+Integer.parseInt(deptNoEmpleadosjTextField.getText())+")";
-                    Statement statement = conexion.createStatement();
-                    System.out.println(update);
-                    statement.executeLargeUpdate(update);
+                    PreparedStatement statement = null;
+                    String sql = String.format("INSERT INTO empleados("
+                            + "emp_no,apellido,oficio, dir,fecha_alt, salario,comision, dept_no)"
+                            + "VALUES(?,?,?,?,?,?,?,?)");
+                    statement = conexion.prepareStatement(sql);
+                    statement.setInt(1,Integer.parseInt(empNojTextField.getText()));
+                    statement.setString(2,apellidosjTextField.getText());
+                    statement.setString(3, oficiojTextField.getText());
+                    statement.setInt(4, Integer.parseInt(dirjTextField.getText()));
+                    statement.setDate(5, fsql);
+                    statement.setDouble(6,Float.parseFloat(salariojTextField.getText()));
+                    statement.setDouble(7, Float.parseFloat(comisionjTextField.getText()));
+                    statement.setInt(8, Integer.parseInt(deptNoEmpleadosjTextField.getText()));
+                    statement.executeUpdate();
+                
                 } catch (SQLException ex) {
-                   System.out.println("FAIL NEGRATA");
-                }
+                    
+                }   
                 opcion=0;
                 setVoidText();
                 break;
@@ -1096,7 +1142,10 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_primeroEmpleadosButtonActionPerformed
 
     private void empleadosConstultarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosConstultarButtonActionPerformed
-        // TODO add your handling code here:
+        opcion=1;
+        setDisableAllTextFieldsEmpleados();
+        empNojTextField.setEditable(true);
+        empleadosModificarButton.setEnabled(false);
     }//GEN-LAST:event_empleadosConstultarButtonActionPerformed
 
     private void empleadosModificarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosModificarButtonActionPerformed
@@ -1379,6 +1428,16 @@ public class GUI extends javax.swing.JFrame {
         salariojTextField.setEnabled(true);
         comisionjTextField.setEnabled(true);
         deptNoEmpleadosjTextField.setEnabled(true);
+    }
+    private void setDisableAllTextFieldsEmpleados() {
+        empNojTextField.setEnabled(true);
+        apellidosjTextField.setEnabled(false);
+        dirjTextField.setEnabled(false);
+        oficiojTextField.setEnabled(false);
+        fechajTextField.setEnabled(false);
+        salariojTextField.setEnabled(false);
+        comisionjTextField.setEnabled(false);
+        deptNoEmpleadosjTextField.setEnabled(false);
     }
 
     private void setEditableEmpleados() {
