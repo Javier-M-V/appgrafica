@@ -5,6 +5,11 @@
  */
 package com.mycompany.appgrafica;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -14,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import sun.rmi.runtime.Log;
 
@@ -52,11 +58,11 @@ public class GUI extends javax.swing.JFrame {
         empleadosButton = new javax.swing.JButton();
         departamentosButton = new javax.swing.JButton();
         emnuprincipalMantenimiento = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        creartablas = new javax.swing.JButton();
+        BorrarTablas = new javax.swing.JButton();
+        InsertarTablas = new javax.swing.JButton();
+        VerMetadatos = new javax.swing.JButton();
+        irAEjecutarScripts = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         gestordepartamentos = new javax.swing.JPanel();
         panelprincipalgestiondepartamentos = new javax.swing.JPanel();
@@ -111,10 +117,10 @@ public class GUI extends javax.swing.JFrame {
         CancelarEmpleadosButton = new javax.swing.JButton();
         scripts = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        TextareaScripts = new javax.swing.JTextArea();
+        ejecutarscript = new javax.swing.JButton();
+        cargarscript = new javax.swing.JButton();
+        menuprincipalscripts = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -171,22 +177,47 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(157, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Crear tablas");
-
-        jButton2.setText("Borrar tablas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        creartablas.setText("Crear tablas");
+        creartablas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                creartablasActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Insertar tablas");
+        BorrarTablas.setText("Borrar tablas");
+        BorrarTablas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BorrarTablasActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Ver metadatos de la BBDD");
+        InsertarTablas.setText("Insertar tablas");
+        InsertarTablas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InsertarTablasActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Ejecutar Scripts");
+        VerMetadatos.setText("Ver metadatos de la BBDD");
+        VerMetadatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerMetadatosActionPerformed(evt);
+            }
+        });
+
+        irAEjecutarScripts.setText("Ejecutar Scripts");
+        irAEjecutarScripts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irAEjecutarScriptsActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Ejecutar procedures");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout emnuprincipalMantenimientoLayout = new javax.swing.GroupLayout(emnuprincipalMantenimiento);
         emnuprincipalMantenimiento.setLayout(emnuprincipalMantenimientoLayout);
@@ -195,27 +226,27 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, emnuprincipalMantenimientoLayout.createSequentialGroup()
                 .addContainerGap(84, Short.MAX_VALUE)
                 .addGroup(emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(irAEjecutarScripts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(VerMetadatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(InsertarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BorrarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(creartablas, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76))
         );
         emnuprincipalMantenimientoLayout.setVerticalGroup(
             emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, emnuprincipalMantenimientoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(creartablas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(BorrarTablas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(InsertarTablas)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(VerMetadatos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(irAEjecutarScripts)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
                 .addGap(72, 72, 72))
@@ -717,15 +748,30 @@ public class GUI extends javax.swing.JFrame {
 
         Panelpestanaprincipal.addTab("Gestión empleados", pestanaempleados);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        TextareaScripts.setColumns(20);
+        TextareaScripts.setRows(5);
+        jScrollPane1.setViewportView(TextareaScripts);
 
-        jButton7.setText("Ejecutar script");
+        ejecutarscript.setText("Ejecutar script");
+        ejecutarscript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ejecutarscriptActionPerformed(evt);
+            }
+        });
 
-        jButton8.setText("Cargar script");
+        cargarscript.setText("Cargar script");
+        cargarscript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarscriptActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("Menú principal");
+        menuprincipalscripts.setText("Menú principal");
+        menuprincipalscripts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuprincipalscriptsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout scriptsLayout = new javax.swing.GroupLayout(scripts);
         scripts.setLayout(scriptsLayout);
@@ -736,11 +782,11 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(scriptsLayout.createSequentialGroup()
                         .addGap(0, 253, Short.MAX_VALUE)
-                        .addComponent(jButton7)
+                        .addComponent(ejecutarscript)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8)
+                        .addComponent(cargarscript)
                         .addGap(140, 140, 140)
-                        .addComponent(jButton9))
+                        .addComponent(menuprincipalscripts))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -751,9 +797,9 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
+                    .addComponent(ejecutarscript)
+                    .addComponent(cargarscript)
+                    .addComponent(menuprincipalscripts))
                 .addGap(14, 14, 14))
         );
 
@@ -991,6 +1037,9 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cargarscript.setEnabled(true);
+        ejecutarscript.setEnabled(false);
+        TextareaScripts.setEditable(false);
     }//GEN-LAST:event_formComponentShown
 
     private void aceptarEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarEmpleadosButtonActionPerformed
@@ -1413,9 +1462,77 @@ public class GUI extends javax.swing.JFrame {
       
     }//GEN-LAST:event_PanelpestanaprincipalComponentShown
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void BorrarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarTablasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BorrarTablasActionPerformed
+
+    private void creartablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creartablasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_creartablasActionPerformed
+
+    private void InsertarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarTablasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InsertarTablasActionPerformed
+
+    private void VerMetadatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMetadatosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerMetadatosActionPerformed
+
+    private void irAEjecutarScriptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irAEjecutarScriptsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_irAEjecutarScriptsActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void cargarscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarscriptActionPerformed
+
+        FileReader fr = null;
+        try {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Selecciona un fichero sql para cargar un script");
+            chooser.showOpenDialog(this);
+            File script = chooser.getSelectedFile();
+            fr = new FileReader(script);
+            BufferedReader br = new BufferedReader(fr);
+            String linea = null;
+     
+            StringBuilder Script= new StringBuilder();
+            String saltodelinea = System.getProperty("line.separator");
+            try{
+                while((linea = br.readLine()) != null){
+                    
+                    Script.append(linea);
+                    Script.append(saltodelinea);
+                }
+                fr.close();
+                }catch (IOException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            TextareaScripts.setText(Script.toString());
+            ejecutarscript.setEnabled(true);
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }       
+    }//GEN-LAST:event_cargarscriptActionPerformed
+
+    private void menuprincipalscriptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuprincipalscriptsActionPerformed
+        Panelpestanaprincipal.setSelectedComponent(pestanamenuprincipal);
+    }//GEN-LAST:event_menuprincipalscriptsActionPerformed
+
+    private void ejecutarscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarscriptActionPerformed
+        try {
+            Statement statem = conexion.createStatement();
+            statem.executeUpdate(TextareaScripts.getText());
+            JOptionPane.showMessageDialog(this, "Script cargado muy guay, amiguito :D");
+            ejecutarscript.setEnabled(false);
+            TextareaScripts.setText("");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+        
+    }//GEN-LAST:event_ejecutarscriptActionPerformed
       
     private void desactivarflechas (){
     
@@ -1460,8 +1577,12 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BorrarTablas;
     private javax.swing.JButton CancelarEmpleadosButton;
+    private javax.swing.JButton InsertarTablas;
     private javax.swing.JTabbedPane Panelpestanaprincipal;
+    private javax.swing.JTextArea TextareaScripts;
+    private javax.swing.JButton VerMetadatos;
     private javax.swing.JButton aceptarButtonGestionDept;
     private javax.swing.JButton aceptarEmpleadosButton;
     private javax.swing.JButton adelanteDepartamentosButton;
@@ -1471,11 +1592,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton atrasEmpleadosButton;
     private javax.swing.JButton borrarDepartamentosButton;
     private javax.swing.JButton cancelarGestionDepartamentosButton;
+    private javax.swing.JButton cargarscript;
     private javax.swing.JTextField comisionjTextField;
     private javax.swing.JButton consultarDepartamentosButton;
+    private javax.swing.JButton creartablas;
     private javax.swing.JButton departamentosButton;
     private javax.swing.JTextField deptNoEmpleadosjTextField;
     private javax.swing.JTextField dirjTextField;
+    private javax.swing.JButton ejecutarscript;
     private javax.swing.JPanel emnuprincipalMantenimiento;
     private javax.swing.JTextField empNojTextField;
     private javax.swing.JButton empleadosBorrarButton;
@@ -1488,15 +1612,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton homeDepartamentosButton;
     private javax.swing.JButton homeEmpleadosButton;
     private javax.swing.JButton insertarDepartamentosButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton irAEjecutarScripts;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1507,9 +1624,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel loc;
     private javax.swing.JTextField locTexfield;
+    private javax.swing.JButton menuprincipalscripts;
     private javax.swing.JButton modificarDepartamentosButton;
     private javax.swing.JTextField nomDeTexfield;
     private javax.swing.JLabel nomDep;
