@@ -51,6 +51,13 @@ public class GUI extends javax.swing.JFrame {
         panelgestiondepemp = new javax.swing.JPanel();
         empleadosButton = new javax.swing.JButton();
         departamentosButton = new javax.swing.JButton();
+        emnuprincipalMantenimiento = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         gestordepartamentos = new javax.swing.JPanel();
         panelprincipalgestiondepartamentos = new javax.swing.JPanel();
         numDe = new javax.swing.JLabel();
@@ -102,6 +109,12 @@ public class GUI extends javax.swing.JFrame {
         primeroEmpleadosButton = new javax.swing.JButton();
         aceptarEmpleadosButton = new javax.swing.JButton();
         CancelarEmpleadosButton = new javax.swing.JButton();
+        scripts = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -158,18 +171,74 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(157, Short.MAX_VALUE))
         );
 
+        jButton1.setText("Crear tablas");
+
+        jButton2.setText("Borrar tablas");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Insertar tablas");
+
+        jButton4.setText("Ver metadatos de la BBDD");
+
+        jButton5.setText("Ejecutar Scripts");
+
+        jButton6.setText("Ejecutar procedures");
+
+        javax.swing.GroupLayout emnuprincipalMantenimientoLayout = new javax.swing.GroupLayout(emnuprincipalMantenimiento);
+        emnuprincipalMantenimiento.setLayout(emnuprincipalMantenimientoLayout);
+        emnuprincipalMantenimientoLayout.setHorizontalGroup(
+            emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, emnuprincipalMantenimientoLayout.createSequentialGroup()
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addGroup(emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(76, 76, 76))
+        );
+        emnuprincipalMantenimientoLayout.setVerticalGroup(
+            emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, emnuprincipalMantenimientoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton6)
+                .addGap(72, 72, 72))
+        );
+
         javax.swing.GroupLayout pestanamenuprincipalLayout = new javax.swing.GroupLayout(pestanamenuprincipal);
         pestanamenuprincipal.setLayout(pestanamenuprincipalLayout);
         pestanamenuprincipalLayout.setHorizontalGroup(
             pestanamenuprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pestanamenuprincipalLayout.createSequentialGroup()
                 .addComponent(panelgestiondepemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 380, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(emnuprincipalMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pestanamenuprincipalLayout.setVerticalGroup(
             pestanamenuprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pestanamenuprincipalLayout.createSequentialGroup()
-                .addComponent(panelgestiondepemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pestanamenuprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelgestiondepemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pestanamenuprincipalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(emnuprincipalMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -261,7 +330,7 @@ public class GUI extends javax.swing.JFrame {
         panelsecundariogestiondepLayout.setHorizontalGroup(
             panelsecundariogestiondepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelsecundariogestiondepLayout.createSequentialGroup()
-                .addContainerGap(258, Short.MAX_VALUE)
+                .addContainerGap(260, Short.MAX_VALUE)
                 .addGroup(panelsecundariogestiondepLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelsecundariogestiondepLayout.createSequentialGroup()
                         .addComponent(primeroDepartamentosButton)
@@ -324,7 +393,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(numDeTexfield, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                             .addComponent(nomDeTexfield)
                             .addComponent(locTexfield))
-                        .addGap(0, 20, Short.MAX_VALUE))
+                        .addGap(0, 35, Short.MAX_VALUE))
                     .addComponent(panelsecundariogestiondep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelprincipalgestiondepartamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -632,7 +701,7 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(panelprincipalempleadosLayout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(homeEmpleadosButton)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pestanaempleadosLayout = new javax.swing.GroupLayout(pestanaempleados);
@@ -647,6 +716,48 @@ public class GUI extends javax.swing.JFrame {
         );
 
         Panelpestanaprincipal.addTab("Gestión empleados", pestanaempleados);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButton7.setText("Ejecutar script");
+
+        jButton8.setText("Cargar script");
+
+        jButton9.setText("Menú principal");
+
+        javax.swing.GroupLayout scriptsLayout = new javax.swing.GroupLayout(scripts);
+        scripts.setLayout(scriptsLayout);
+        scriptsLayout.setHorizontalGroup(
+            scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scriptsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(scriptsLayout.createSequentialGroup()
+                        .addGap(0, 253, Short.MAX_VALUE)
+                        .addComponent(jButton7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8)
+                        .addGap(140, 140, 140)
+                        .addComponent(jButton9))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        scriptsLayout.setVerticalGroup(
+            scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scriptsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(scriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
+                .addGap(14, 14, 14))
+        );
+
+        Panelpestanaprincipal.addTab("Scripts", scripts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1301,6 +1412,10 @@ public class GUI extends javax.swing.JFrame {
     private void PanelpestanaprincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_PanelpestanaprincipalComponentShown
       
     }//GEN-LAST:event_PanelpestanaprincipalComponentShown
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
       
     private void desactivarflechas (){
     
@@ -1361,6 +1476,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton departamentosButton;
     private javax.swing.JTextField deptNoEmpleadosjTextField;
     private javax.swing.JTextField dirjTextField;
+    private javax.swing.JPanel emnuprincipalMantenimiento;
     private javax.swing.JTextField empNojTextField;
     private javax.swing.JButton empleadosBorrarButton;
     private javax.swing.JButton empleadosButton;
@@ -1372,6 +1488,15 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton homeDepartamentosButton;
     private javax.swing.JButton homeEmpleadosButton;
     private javax.swing.JButton insertarDepartamentosButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1381,6 +1506,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel loc;
     private javax.swing.JTextField locTexfield;
     private javax.swing.JButton modificarDepartamentosButton;
@@ -1399,6 +1526,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton primeroDepartamentosButton;
     private javax.swing.JButton primeroEmpleadosButton;
     private javax.swing.JTextField salariojTextField;
+    private javax.swing.JPanel scripts;
     private javax.swing.JButton ultimoDepartamentosButton;
     private javax.swing.JButton ultimoEmpleadosButton;
     // End of variables declaration//GEN-END:variables
