@@ -36,7 +36,7 @@ public class GUI extends javax.swing.JFrame {
         initComponents(); 
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "1234");
+                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowMultiQueries=true","root", "1234");
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -1507,6 +1507,7 @@ public class GUI extends javax.swing.JFrame {
                     Script.append(saltodelinea);
                 }
                 fr.close();
+                br.close();
                 }catch (IOException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
