@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,8 +20,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sun.rmi.runtime.Log;
 
 /**
@@ -52,7 +55,7 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Panelpestanaprincipal = new javax.swing.JTabbedPane();
+        Metadatos = new javax.swing.JTabbedPane();
         pestanamenuprincipal = new javax.swing.JPanel();
         panelgestiondepemp = new javax.swing.JPanel();
         empleadosButton = new javax.swing.JButton();
@@ -60,10 +63,10 @@ public class GUI extends javax.swing.JFrame {
         emnuprincipalMantenimiento = new javax.swing.JPanel();
         creartablas = new javax.swing.JButton();
         BorrarTablas = new javax.swing.JButton();
-        InsertarTablas = new javax.swing.JButton();
+        InsertarDatos = new javax.swing.JButton();
         VerMetadatos = new javax.swing.JButton();
         irAEjecutarScripts = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jButtonProcedures = new javax.swing.JButton();
         gestordepartamentos = new javax.swing.JPanel();
         panelprincipalgestiondepartamentos = new javax.swing.JPanel();
         numDe = new javax.swing.JLabel();
@@ -121,6 +124,21 @@ public class GUI extends javax.swing.JFrame {
         ejecutarscript = new javax.swing.JButton();
         cargarscript = new javax.swing.JButton();
         menuprincipalscripts = new javax.swing.JButton();
+        jPanelMetadatos = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableBBDD = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        JtableInfoDeTablas = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableInfoDept = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        Procedures = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListprocedures = new javax.swing.JList<>();
+        jLabel12 = new javax.swing.JLabel();
+        jButtonProcedure = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -134,9 +152,9 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        Panelpestanaprincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+        Metadatos.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
-                PanelpestanaprincipalComponentShown(evt);
+                MetadatosComponentShown(evt);
             }
         });
 
@@ -191,10 +209,10 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        InsertarTablas.setText("Insertar tablas");
-        InsertarTablas.addActionListener(new java.awt.event.ActionListener() {
+        InsertarDatos.setText("Insertar datos");
+        InsertarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InsertarTablasActionPerformed(evt);
+                InsertarDatosActionPerformed(evt);
             }
         });
 
@@ -212,10 +230,10 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Ejecutar procedures");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButtonProcedures.setText("Ejecutar procedures");
+        jButtonProcedures.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButtonProceduresActionPerformed(evt);
             }
         });
 
@@ -227,9 +245,9 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(84, Short.MAX_VALUE)
                 .addGroup(emnuprincipalMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(irAEjecutarScripts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonProcedures, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(VerMetadatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(InsertarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(InsertarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BorrarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(creartablas, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76))
@@ -242,13 +260,13 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BorrarTablas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(InsertarTablas)
+                .addComponent(InsertarDatos)
                 .addGap(18, 18, 18)
                 .addComponent(VerMetadatos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(irAEjecutarScripts)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(jButtonProcedures)
                 .addGap(72, 72, 72))
         );
 
@@ -276,7 +294,7 @@ public class GUI extends javax.swing.JFrame {
         panelgestiondepemp.getAccessibleContext().setAccessibleName("Gestionempleadosdepartamentos");
         panelgestiondepemp.getAccessibleContext().setAccessibleDescription("");
 
-        Panelpestanaprincipal.addTab("Menú principal", pestanamenuprincipal);
+        Metadatos.addTab("Menú principal", pestanamenuprincipal);
 
         numDe.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         numDe.setText("nº Departamento");
@@ -474,7 +492,7 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(panelprincipalgestiondepartamentos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        Panelpestanaprincipal.addTab("Gestión departamentos", gestordepartamentos);
+        Metadatos.addTab("Gestión departamentos", gestordepartamentos);
 
         panelprincipalempleados.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -746,7 +764,7 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(panelprincipalempleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        Panelpestanaprincipal.addTab("Gestión empleados", pestanaempleados);
+        Metadatos.addTab("Gestión empleados", pestanaempleados);
 
         TextareaScripts.setColumns(20);
         TextareaScripts.setRows(5);
@@ -803,7 +821,136 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        Panelpestanaprincipal.addTab("Scripts", scripts);
+        Metadatos.addTab("Scripts", scripts);
+
+        jTableBBDD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Driver", "URL", "Usuario"
+            }
+        ));
+        jScrollPane3.setViewportView(jTableBBDD);
+
+        JtableInfoDeTablas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Catálogo", "Esquema", "Tabla", "Tipo"
+            }
+        ));
+        jScrollPane4.setViewportView(JtableInfoDeTablas);
+
+        jTableInfoDept.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Tipo", "Tamaño", "¿Null?"
+            }
+        ));
+        jScrollPane5.setViewportView(jTableInfoDept);
+
+        jLabel9.setText("Nombre de la BBDD");
+
+        jLabel10.setText("Info de las tablas");
+
+        jLabel11.setText("Info de departamentos");
+
+        javax.swing.GroupLayout jPanelMetadatosLayout = new javax.swing.GroupLayout(jPanelMetadatos);
+        jPanelMetadatos.setLayout(jPanelMetadatosLayout);
+        jPanelMetadatosLayout.setHorizontalGroup(
+            jPanelMetadatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMetadatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMetadatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMetadatosLayout.createSequentialGroup()
+                        .addGroup(jPanelMetadatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane4)
+                            .addGroup(jPanelMetadatosLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanelMetadatosLayout.createSequentialGroup()
+                        .addGroup(jPanelMetadatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanelMetadatosLayout.setVerticalGroup(
+            jPanelMetadatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMetadatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        Metadatos.addTab("Metadatos", jPanelMetadatos);
+
+        jListprocedures.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jListprocedures);
+
+        jLabel12.setText("Procedures disponibles");
+
+        jButtonProcedure.setText("Ejecutar procedure");
+        jButtonProcedure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProcedureActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ProceduresLayout = new javax.swing.GroupLayout(Procedures);
+        Procedures.setLayout(ProceduresLayout);
+        ProceduresLayout.setHorizontalGroup(
+            ProceduresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProceduresLayout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addGroup(ProceduresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(173, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProceduresLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonProcedure)
+                .addGap(278, 278, 278))
+        );
+        ProceduresLayout.setVerticalGroup(
+            ProceduresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProceduresLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonProcedure)
+                .addContainerGap(148, Short.MAX_VALUE))
+        );
+
+        Metadatos.addTab("Procedures", Procedures);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -811,13 +958,13 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Panelpestanaprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Metadatos, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(Panelpestanaprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Metadatos, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -826,12 +973,12 @@ public class GUI extends javax.swing.JFrame {
 
     private void departamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departamentosButtonActionPerformed
 
-        Panelpestanaprincipal.setSelectedComponent(gestordepartamentos);
+        Metadatos.setSelectedComponent(gestordepartamentos);
       
     }//GEN-LAST:event_departamentosButtonActionPerformed
 
     private void empleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosButtonActionPerformed
-        Panelpestanaprincipal.setSelectedComponent(pestanaempleados);
+        Metadatos.setSelectedComponent(pestanaempleados);
     }//GEN-LAST:event_empleadosButtonActionPerformed
 
     private void consultarDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarDepartamentosButtonActionPerformed
@@ -1027,7 +1174,6 @@ public class GUI extends javax.swing.JFrame {
         fechajTextField.setEditable(false);
         salariojTextField.setEditable(false);
         comisionjTextField.setEditable(false);
-     
         
         try {
             if(result.isFirst()){
@@ -1040,6 +1186,57 @@ public class GUI extends javax.swing.JFrame {
         cargarscript.setEnabled(true);
         ejecutarscript.setEnabled(false);
         TextareaScripts.setEditable(false);
+        
+        try{ //metadatos
+          datametadata= conexion.getMetaData();
+          String nombre = datametadata.getDatabaseProductName();
+          String driver = datametadata.getDriverName();           
+          String url = datametadata.getURL();            
+          String usuario = datametadata.getUserName();
+          jTableBBDD.setValueAt(nombre, 0, 0);
+          jTableBBDD.setValueAt(driver, 0, 1);
+          jTableBBDD.setValueAt(url, 0, 2);
+          jTableBBDD.setValueAt(usuario, 0, 3);
+
+          result = datametadata.getTables("empresa", null, "%",null );
+          DefaultTableModel model =(DefaultTableModel) JtableInfoDeTablas.getModel();
+          for(int i=0;result.next();i++){
+              model.addRow(new Object[0]);
+              JtableInfoDeTablas.setValueAt(result.getString(1), i,0);
+              JtableInfoDeTablas.setValueAt(result.getString(2), i,1 );
+              JtableInfoDeTablas.setValueAt(result.getString(3), i,2 );
+              JtableInfoDeTablas.setValueAt(result.getString(4), i,3 );
+          }
+          result = datametadata.getColumns(null, "empresa", "departamentos","%" );
+          DefaultTableModel modelde =(DefaultTableModel) jTableInfoDept.getModel();
+          for(int i=0;result.next();i++){
+              modelde.addRow(new Object[0]);
+              jTableInfoDept.setValueAt(result.getString(4), i,0 );
+              jTableInfoDept.setValueAt(result.getString(6), i,1 );
+              jTableInfoDept.setValueAt(result.getString(7), i,2 );
+              jTableInfoDept.setValueAt(result.getString(18), i,3 );
+          }  
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
+       //procedures
+         ResultSet procedures;
+        try {
+            procedures = datametadata.getProcedures("empresa", "empresa", "%");
+           
+            DefaultListModel<String> procedurenames = new DefaultListModel<String>();
+            procedures.first();
+            int a=0;
+            while (procedures.next()){
+                String nombre = procedures.getString("PROCEDURE_NAME");
+                procedurenames.add(a, nombre);
+                a++;  
+            }
+            jListprocedures.setModel(procedurenames);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }     
     }//GEN-LAST:event_formComponentShown
 
     private void aceptarEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarEmpleadosButtonActionPerformed
@@ -1158,7 +1355,7 @@ public class GUI extends javax.swing.JFrame {
                     Statement statement = conexion.createStatement();
                      statement.executeLargeUpdate(delete);
                 } catch (SQLException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, ex);
                 }
                 opcion=0;
                 setVoidText();
@@ -1243,7 +1440,7 @@ public class GUI extends javax.swing.JFrame {
                       stat = conexion.createStatement();
                       stat.executeLargeUpdate(sql);
                   } catch (SQLException ex) {
-                      Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                      JOptionPane.showMessageDialog(this, ex);
                   }
                 opcion=0;
                 break;
@@ -1257,7 +1454,7 @@ public class GUI extends javax.swing.JFrame {
                     Statement statement = conexion.createStatement();
                     statement.executeLargeUpdate(update);
                 } catch (SQLException ex) {
-                       System.out.println("WF?!");
+                       JOptionPane.showMessageDialog(this, ex);
                 }
                 opcion=0;
                 break;
@@ -1280,11 +1477,11 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_aceptarButtonGestionDeptActionPerformed
 
     private void homeDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeDepartamentosButtonActionPerformed
-         Panelpestanaprincipal.setSelectedComponent(pestanamenuprincipal);
+         Metadatos.setSelectedComponent(pestanamenuprincipal);
     }//GEN-LAST:event_homeDepartamentosButtonActionPerformed
 
     private void homeEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeEmpleadosButtonActionPerformed
-        Panelpestanaprincipal.setSelectedComponent(pestanamenuprincipal);
+        Metadatos.setSelectedComponent(pestanamenuprincipal);
     }//GEN-LAST:event_homeEmpleadosButtonActionPerformed
 
     private void primeroDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeroDepartamentosButtonActionPerformed
@@ -1458,33 +1655,102 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_panelprincipalempleadosComponentShown
 
-    private void PanelpestanaprincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_PanelpestanaprincipalComponentShown
+    private void MetadatosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MetadatosComponentShown
       
-    }//GEN-LAST:event_PanelpestanaprincipalComponentShown
+    }//GEN-LAST:event_MetadatosComponentShown
 
     private void BorrarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarTablasActionPerformed
-        // TODO add your handling code here:
+        try {
+            String borrado = "DROP TABLE IF EXISTS notas;\n" +
+                    "DROP TABLE IF EXISTS alumnos;\n" +
+                    "DROP TABLE IF EXISTS asignaturas;\n";
+            
+            Statement stard = conexion.createStatement();
+            stard.execute(borrado);
+            JOptionPane.showMessageDialog(this, "boradas");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
     }//GEN-LAST:event_BorrarTablasActionPerformed
 
     private void creartablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creartablasActionPerformed
-        // TODO add your handling code here:
+        try {
+            String creacion = "CREATE TABLE IF NOT EXISTS alumnos(\n" +
+                    "dni VARCHAR(10) NOT NULL PRIMARY KEY,\n" +
+                    "apenom VARCHAR(30),\n" +
+                    "direc VARCHAR(30),\n" +
+                    "pobla VARCHAR(15),\n" +
+                    "telef VARCHAR(10)\n" +
+                    ");\n" +
+                    "\n" +
+                    "CREATE TABLE IF NOT EXISTS asignaturas(\n" +
+                    "cod INT PRIMARY KEY,\n" +
+                    "nombre VARCHAR(25)\n" +
+                    ");\n" +
+                    "\n" +
+                    "CREATE TABLE IF NOT EXISTS notas(\n" +
+                    "dni VARCHAR(10) NOT NULL,\n" +
+                    "cod INT NOT NULL,\n" +
+                    "nota INT,\n" +
+                    "PRIMARY KEY (dni,cod)\n" +
+                    ");\n" +
+                    "\n" +
+                    "/*Creacion de las claves ajenas*/\n" +
+                    "\n" +
+                    "ALTER TABLE notas ADD CONSTRAINT fk_notasalumnos FOREIGN KEY (dni) REFERENCES alumnos(dni) ON UPDATE CASCADE ON DELETE RESTRICT;\n" +
+                    "ALTER TABLE notas ADD CONSTRAINT fk_notasasignaturas FOREIGN KEY (cod) REFERENCES asignaturas(cod) ON UPDATE CASCADE ON DELETE RESTRICT;\n"
+                    +"commit;";;
+                    
+            Statement stard = conexion.createStatement();
+            stard.execute(creacion);
+            JOptionPane.showMessageDialog(this, "creadas");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
     }//GEN-LAST:event_creartablasActionPerformed
 
-    private void InsertarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarTablasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InsertarTablasActionPerformed
+    private void InsertarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarDatosActionPerformed
+        try {
+            String insercion = "INSERT IGNORE INTO asignaturas VALUES (1,'Prog. Leng. Estr.');\n" +
+                    "INSERT IGNORE INTO asignaturas VALUES (2,'Sistemas Informáticos');\n" +
+                    "INSERT IGNORE INTO asignaturas VALUES (3,'Análisis');\n" +
+                    "INSERT IGNORE INTO asignaturas VALUES (4,'FOL');\n" +
+                    "INSERT IGNORE INTO asignaturas VALUES (5,'RET');\n" +
+                    "\n" +
+                    "INSERT IGNORE INTO alumnos VALUES ('12344345','Alcalde García, Elena','C/ Las Matas, 24','Madrid','917766545');\n" +
+                    "INSERT IGNORE INTO alumnos VALUES ('44482421','Cerrato Vela, Luis','C/ Mina 28 3-A','Madrid','9165665445');\n" +
+                    "INSERT IGNORE INTO alumnos VALUES ('56882942','Díaz Fernandez, María','C/ Luis Vives, 25','Móstoles','915577545');\n" +
+                    "\n" +
+                    "INSERT IGNORE INTO notas VALUES ('12344345',1,6);\n" +
+                    "INSERT IGNORE INTO notas VALUES ('12344345',2,5);\n" +
+                    "\n" +
+                    "INSERT IGNORE INTO notas VALUES ('44482421',4,6);\n" +
+                    "INSERT IGNORE INTO notas VALUES ('44482421',5,8);\n" +
+                    "\n" +
+                    "INSERT IGNORE INTO notas VALUES ('56882942',1,8);\n" +
+                    "INSERT IGNORE INTO notas VALUES ('56882942',3,7);\n" +
+                    "\n" +
+                    "commit;";
+                    
+            Statement stard = conexion.createStatement();
+            stard.execute(insercion);
+            JOptionPane.showMessageDialog(this, "datos introducidos");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+    }//GEN-LAST:event_InsertarDatosActionPerformed
 
     private void VerMetadatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerMetadatosActionPerformed
-        // TODO add your handling code here:
+        Metadatos.setSelectedComponent(jPanelMetadatos);
     }//GEN-LAST:event_VerMetadatosActionPerformed
 
     private void irAEjecutarScriptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irAEjecutarScriptsActionPerformed
-        // TODO add your handling code here:
+        Metadatos.setSelectedComponent(scripts);
     }//GEN-LAST:event_irAEjecutarScriptsActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void jButtonProceduresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProceduresActionPerformed
+        Metadatos.setSelectedComponent(Procedures);
+    }//GEN-LAST:event_jButtonProceduresActionPerformed
 
     private void cargarscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarscriptActionPerformed
 
@@ -1519,7 +1785,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarscriptActionPerformed
 
     private void menuprincipalscriptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuprincipalscriptsActionPerformed
-        Panelpestanaprincipal.setSelectedComponent(pestanamenuprincipal);
+        Metadatos.setSelectedComponent(pestanamenuprincipal);
     }//GEN-LAST:event_menuprincipalscriptsActionPerformed
 
     private void ejecutarscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarscriptActionPerformed
@@ -1532,8 +1798,22 @@ public class GUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex);
         }
-        
     }//GEN-LAST:event_ejecutarscriptActionPerformed
+
+    private void jButtonProcedureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedureActionPerformed
+        try {
+            Statement sta = conexion.createStatement();
+            if(jListprocedures.getSelectedIndex()==0){
+                sta.executeQuery("EXECUTE nombre_dep(20)");
+            }
+            else if(jListprocedures.getSelectedIndex()==1){
+                 sta.executeQuery("EXECUTE subida_sal(20,100)");
+            }
+            JOptionPane.showMessageDialog(this, "hecho");
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonProcedureActionPerformed
       
     private void desactivarflechas (){
     
@@ -1580,8 +1860,10 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BorrarTablas;
     private javax.swing.JButton CancelarEmpleadosButton;
-    private javax.swing.JButton InsertarTablas;
-    private javax.swing.JTabbedPane Panelpestanaprincipal;
+    private javax.swing.JButton InsertarDatos;
+    private javax.swing.JTable JtableInfoDeTablas;
+    private javax.swing.JTabbedPane Metadatos;
+    private javax.swing.JPanel Procedures;
     private javax.swing.JTextArea TextareaScripts;
     private javax.swing.JButton VerMetadatos;
     private javax.swing.JButton aceptarButtonGestionDept;
@@ -1614,8 +1896,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton homeEmpleadosButton;
     private javax.swing.JButton insertarDepartamentosButton;
     private javax.swing.JButton irAEjecutarScripts;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButtonProcedure;
+    private javax.swing.JButton jButtonProcedures;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1623,8 +1909,17 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jListprocedures;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelMetadatos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable jTableBBDD;
+    private javax.swing.JTable jTableInfoDept;
     private javax.swing.JLabel loc;
     private javax.swing.JTextField locTexfield;
     private javax.swing.JButton menuprincipalscripts;
@@ -1651,6 +1946,7 @@ public class GUI extends javax.swing.JFrame {
     static Connection conexion =null;
     static ResultSet result = null;
     static int opcion=0;//caso base, consultar, modificar, borrar, insertar
+    static DatabaseMetaData datametadata;
 
     private void ensenyarResult(ResultSet result) {
         try {
