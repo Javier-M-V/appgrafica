@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -18,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -1226,7 +1228,6 @@ public class GUI extends javax.swing.JFrame {
             procedures = datametadata.getProcedures("empresa", "empresa", "%");
            
             DefaultListModel<String> procedurenames = new DefaultListModel<String>();
-            procedures.first();
             int a=0;
             while (procedures.next()){
                 String nombre = procedures.getString("PROCEDURE_NAME");
@@ -1801,17 +1802,48 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ejecutarscriptActionPerformed
 
     private void jButtonProcedureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedureActionPerformed
+        CallableStatement call = null;
         try {
             Statement sta = conexion.createStatement();
-            if(jListprocedures.getSelectedIndex()==0){
-                sta.executeQuery("EXECUTE nombre_dep(20)");
-            }
-            else if(jListprocedures.getSelectedIndex()==1){
-                 sta.executeQuery("EXECUTE subida_sal(20,100)");
+            switch(jListprocedures.getSelectedIndex()){
+            
+                case 0:
+                    String callabledatos = "{CALL datos_dep (?,?,?) }";
+                    call= conexion.prepareCall(callabledatos);
+                    call.setInt(1,Integer.parseInt(JOptionPane.showInputDialog("departamento")));
+                    call.execute();
+                    String nombred=call.getString(2);
+                    String localidad=call.getString(2);
+                    JOptionPane.showMessageDialog(this, "nombre de departamento:"+nombred+"\n"+
+                            "localidad: "+localidad);
+                    
+                    break;
+                        
+                case 1:
+                    String callablenombre = "{?=CALL nombre_dep (?) }";
+                    call= conexion.prepareCall(callablenombre);
+                    call.registerOutParameter(1, Types.VARCHAR);
+                    call.setInt(2,Integer.parseInt(JOptionPane.showInputDialog("departamento")));
+                    call.execute();
+                    String nombredep=call.getString(1);
+                    JOptionPane.showMessageDialog(this, nombredep);
+                    
+                    break;
+                    
+                case 2:
+                    String callablesubida = "{call subida_sal (?,?) }";
+                    call= conexion.prepareCall(callablesubida);
+                    call.setInt(1,Integer.parseInt(JOptionPane.showInputDialog("departamento")));
+                    call.setInt(2,Integer.parseInt(JOptionPane.showInputDialog("salario")));
+                    call.executeUpdate();
+                    break;
+    
+                default: 
+                    break;
             }
             JOptionPane.showMessageDialog(this, "hecho");
         } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_jButtonProcedureActionPerformed
       
