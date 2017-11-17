@@ -298,6 +298,18 @@ public class GUI extends javax.swing.JFrame {
 
         Metadatos.addTab("Menú principal", pestanamenuprincipal);
 
+        gestordepartamentos.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                gestordepartamentosComponentShown(evt);
+            }
+        });
+
+        panelprincipalgestiondepartamentos.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelprincipalgestiondepartamentosComponentShown(evt);
+            }
+        });
+
         numDe.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         numDe.setText("nº Departamento");
 
@@ -495,6 +507,12 @@ public class GUI extends javax.swing.JFrame {
         );
 
         Metadatos.addTab("Gestión departamentos", gestordepartamentos);
+
+        pestanaempleados.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pestanaempleadosComponentShown(evt);
+            }
+        });
 
         panelprincipalempleados.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -768,6 +786,12 @@ public class GUI extends javax.swing.JFrame {
 
         Metadatos.addTab("Gestión empleados", pestanaempleados);
 
+        scripts.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                scriptsComponentShown(evt);
+            }
+        });
+
         TextareaScripts.setColumns(20);
         TextareaScripts.setRows(5);
         jScrollPane1.setViewportView(TextareaScripts);
@@ -824,6 +848,12 @@ public class GUI extends javax.swing.JFrame {
         );
 
         Metadatos.addTab("Scripts", scripts);
+
+        jPanelMetadatos.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelMetadatosComponentShown(evt);
+            }
+        });
 
         jTableBBDD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -908,6 +938,12 @@ public class GUI extends javax.swing.JFrame {
         );
 
         Metadatos.addTab("Metadatos", jPanelMetadatos);
+
+        Procedures.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                ProceduresComponentShown(evt);
+            }
+        });
 
         jListprocedures.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -999,8 +1035,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_consultarDepartamentosButtonActionPerformed
 
     private void adelanteDepartamentosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteDepartamentosButtonActionPerformed
-        
-        
+     
         try {
             if(result.next()){
                 numDeTexfield.setText(result.getString("dept_no"));
@@ -1060,14 +1095,12 @@ public class GUI extends javax.swing.JFrame {
                 adelanteEmpleadosButton.setEnabled(true);
                 ultimoEmpleadosButton.setEnabled(true);
                 primeroEmpleadosButton.setEnabled(true);
-                atrasEmpleadosButton.setEnabled(true);
-                
+                atrasEmpleadosButton.setEnabled(true); 
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+        }       
     }//GEN-LAST:event_adelanteEmpleadosButtonActionPerformed
 
     private void ultimoEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoEmpleadosButtonActionPerformed
@@ -1118,126 +1151,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_numDeTexfieldActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Statement stat;
-        try {//DEPARTAMENTOS
-            stat = conexion.createStatement();
-            String sql = "Select * FROM departamentos";
-            result = stat.executeQuery(sql);
-            result.first();
-            numDeTexfield.setText(result.getString("dept_no"));
-            nomDeTexfield.setText(result.getString("dnombre"));
-            locTexfield.setText(result.getString("loc"));
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        aceptarButtonGestionDept.setEnabled(true);
-        cancelarGestionDepartamentosButton.setEnabled(true);
-        consultarDepartamentosButton.setEnabled(false);
-        modificarDepartamentosButton.setEnabled(false);
-        borrarDepartamentosButton.setEnabled(false);
-        insertarDepartamentosButton.setEnabled(false);
-        homeDepartamentosButton.setEnabled(true);
-        numDeTexfield.setEditable(false);
-        nomDeTexfield.setEditable(false);
-        locTexfield.setEditable(false);
-        
-        try {
-            if(result.isFirst()){
-                primeroDepartamentosButton.setEnabled(false);
-                atrasDepartamentosButton.setEnabled(false);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {//EMPLEADOS
-            stat = conexion.createStatement();
-            String sql = "Select * FROM empleados";
-            result = stat.executeQuery(sql);
-            result.first();
-            ensenyarResult(result);
-    
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        aceptarEmpleadosButton.setEnabled(true);
-        CancelarEmpleadosButton.setEnabled(true);
-        empleadosModificarButton.setEnabled(false);
-        empleadosConstultarButton.setEnabled(false);
-        empleadosBorrarButton.setEnabled(false);
-        empleadosInsertarButton.setEnabled(false);
-        insertarDepartamentosButton.setEnabled(false);
-        homeDepartamentosButton.setEnabled(true);
-        empNojTextField.setEditable(false);
-        apellidosjTextField.setEditable(false);
-        dirjTextField.setEditable(false);
-        oficiojTextField.setEditable(false);
-        fechajTextField.setEditable(false);
-        salariojTextField.setEditable(false);
-        comisionjTextField.setEditable(false);
-        
-        try {
-            if(result.isFirst()){
-                primeroEmpleadosButton.setEnabled(false);
-                atrasEmpleadosButton.setEnabled(false);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cargarscript.setEnabled(true);
-        ejecutarscript.setEnabled(false);
-        TextareaScripts.setEditable(false);
-        
-        try{ //metadatos
-          datametadata= conexion.getMetaData();
-          String nombre = datametadata.getDatabaseProductName();
-          String driver = datametadata.getDriverName();           
-          String url = datametadata.getURL();            
-          String usuario = datametadata.getUserName();
-          jTableBBDD.setValueAt(nombre, 0, 0);
-          jTableBBDD.setValueAt(driver, 0, 1);
-          jTableBBDD.setValueAt(url, 0, 2);
-          jTableBBDD.setValueAt(usuario, 0, 3);
-
-          result = datametadata.getTables("empresa", null, "%",null );
-          DefaultTableModel model =(DefaultTableModel) JtableInfoDeTablas.getModel();
-          for(int i=0;result.next();i++){
-              model.addRow(new Object[0]);
-              JtableInfoDeTablas.setValueAt(result.getString(1), i,0);
-              JtableInfoDeTablas.setValueAt(result.getString(2), i,1 );
-              JtableInfoDeTablas.setValueAt(result.getString(3), i,2 );
-              JtableInfoDeTablas.setValueAt(result.getString(4), i,3 );
-          }
-          result = datametadata.getColumns(null, "empresa", "departamentos","%" );
-          DefaultTableModel modelde =(DefaultTableModel) jTableInfoDept.getModel();
-          for(int i=0;result.next();i++){
-              modelde.addRow(new Object[0]);
-              jTableInfoDept.setValueAt(result.getString(4), i,0 );
-              jTableInfoDept.setValueAt(result.getString(6), i,1 );
-              jTableInfoDept.setValueAt(result.getString(7), i,2 );
-              jTableInfoDept.setValueAt(result.getString(18), i,3 );
-          }  
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          
-       //procedures
-         ResultSet procedures;
-        try {
-            procedures = datametadata.getProcedures("empresa", "empresa", "%");
-           
-            DefaultListModel<String> procedurenames = new DefaultListModel<String>();
-            int a=0;
-            while (procedures.next()){
-                String nombre = procedures.getString("PROCEDURE_NAME");
-                procedurenames.add(a, nombre);
-                a++;  
-            }
-            jListprocedures.setModel(procedurenames);
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }     
+       
     }//GEN-LAST:event_formComponentShown
 
     private void aceptarEmpleadosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarEmpleadosButtonActionPerformed
@@ -1391,9 +1305,7 @@ public class GUI extends javax.swing.JFrame {
                 break;
             
             case 1: //consultar
-                int numde = 0;
-                String dnombres="";
-                String locs="";
+                
                 String getext = numDeTexfield.getText();
                 if(!getext.isEmpty()){
                     try {
@@ -1401,10 +1313,10 @@ public class GUI extends javax.swing.JFrame {
                         String sql = "Select * FROM departamentos WHERE dept_no ="+Integer.parseInt(numDeTexfield.getText());
                         result = stat.executeQuery(sql);
                         result.first();
-                        numde = result.getInt("dept_no");
-                        dnombres = dnombres+result.getString("dnombre");
-                        locs= locs+result.getString("loc");
-
+                        numDeTexfield.setText(Integer.toString(result.getInt("dept_no")));
+                        nomDeTexfield.setText(result.getString("dnombre"));
+                        locTexfield.setText(result.getString("loc"));
+      
                     } catch (SQLException ex) {
                         Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1416,9 +1328,6 @@ public class GUI extends javax.swing.JFrame {
                 locTexfield.setEnabled(true);
                 nomDeTexfield.setEditable(true);
                 locTexfield.setEditable(true);
-                numDeTexfield.setText(Integer.toString(numde));
-                nomDeTexfield.setText(dnombres);
-                locTexfield.setText(locs);
                 modificarDepartamentosButton.setEnabled(true);
                 borrarDepartamentosButton.setEnabled(true);
                 primeroDepartamentosButton.setEnabled(false);
@@ -1657,7 +1566,23 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_panelprincipalempleadosComponentShown
 
     private void MetadatosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MetadatosComponentShown
-      
+          Statement stat=null;
+       //procedures
+         ResultSet procedures;
+        try {
+            procedures = datametadata.getProcedures("empresa", "empresa", "%");
+           
+            DefaultListModel<String> procedurenames = new DefaultListModel<String>();
+            int a=0;
+            while (procedures.next()){
+                String nombre = procedures.getString("PROCEDURE_NAME");
+                procedurenames.add(a, nombre);
+                a++;  
+            }
+            jListprocedures.setModel(procedurenames);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }      
     }//GEN-LAST:event_MetadatosComponentShown
 
     private void BorrarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarTablasActionPerformed
@@ -1846,6 +1771,154 @@ public class GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_jButtonProcedureActionPerformed
+
+    private void panelprincipalgestiondepartamentosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelprincipalgestiondepartamentosComponentShown
+        
+    }//GEN-LAST:event_panelprincipalgestiondepartamentosComponentShown
+
+    private void gestordepartamentosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_gestordepartamentosComponentShown
+         Statement stat;
+        try {//DEPARTAMENTOS
+            stat = conexion.createStatement();
+            String sql = "Select * FROM departamentos";
+            result = stat.executeQuery(sql);
+            result.first();
+            numDeTexfield.setText(result.getString("dept_no"));
+            nomDeTexfield.setText(result.getString("dnombre"));
+            locTexfield.setText(result.getString("loc"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        aceptarButtonGestionDept.setEnabled(true);
+        cancelarGestionDepartamentosButton.setEnabled(true);
+        nomDeTexfield.setEditable(false);
+        locTexfield.setEditable(false);
+        
+        try {
+            if(result.isFirst()){
+                primeroDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }    consultarDepartamentosButton.setEnabled(false);
+        modificarDepartamentosButton.setEnabled(false);
+        borrarDepartamentosButton.setEnabled(false);
+        insertarDepartamentosButton.setEnabled(false);
+        homeDepartamentosButton.setEnabled(true);
+        numDeTexfield.setEditable(false);
+        nomDeTexfield.setEditable(false);
+        locTexfield.setEditable(false);
+        
+        try {
+            if(result.isFirst()){
+                primeroDepartamentosButton.setEnabled(false);
+                atrasDepartamentosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_gestordepartamentosComponentShown
+
+    private void pestanaempleadosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pestanaempleadosComponentShown
+        Statement stat=null; 
+        try {//EMPLEADOS
+            stat = conexion.createStatement();
+            String sql = "Select * FROM empleados";
+            result = stat.executeQuery(sql);
+            result.first();
+            ensenyarResult(result);
+            activarEmpleadosFlechas();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        aceptarEmpleadosButton.setEnabled(true);
+        CancelarEmpleadosButton.setEnabled(true);
+        empleadosModificarButton.setEnabled(false);
+        empleadosConstultarButton.setEnabled(false);
+        empleadosBorrarButton.setEnabled(false);
+        empleadosInsertarButton.setEnabled(false);
+        insertarDepartamentosButton.setEnabled(false);
+        homeDepartamentosButton.setEnabled(true);
+        empNojTextField.setEditable(false);
+        apellidosjTextField.setEditable(false);
+        dirjTextField.setEditable(false);
+        oficiojTextField.setEditable(false);
+        fechajTextField.setEditable(false);
+        salariojTextField.setEditable(false);
+        comisionjTextField.setEditable(false);
+        
+        try {
+            if(result.isFirst()){
+                primeroEmpleadosButton.setEnabled(false);
+                atrasEmpleadosButton.setEnabled(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_pestanaempleadosComponentShown
+
+    private void scriptsComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scriptsComponentShown
+        cargarscript.setEnabled(true);
+        ejecutarscript.setEnabled(false);
+        TextareaScripts.setEditable(false);
+    }//GEN-LAST:event_scriptsComponentShown
+
+    private void jPanelMetadatosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelMetadatosComponentShown
+        try{ //metadatos
+          datametadata= conexion.getMetaData();
+          String nombre = datametadata.getDatabaseProductName();
+          String driver = datametadata.getDriverName();           
+          String url = datametadata.getURL();            
+          String usuario = datametadata.getUserName();
+          jTableBBDD.setValueAt(nombre, 0, 0);
+          jTableBBDD.setValueAt(driver, 0, 1);
+          jTableBBDD.setValueAt(url, 0, 2);
+          jTableBBDD.setValueAt(usuario, 0, 3);
+
+          result = datametadata.getTables("empresa", null, "%",null );
+          DefaultTableModel model =(DefaultTableModel) JtableInfoDeTablas.getModel();
+          for(int i=0;result.next();i++){
+              model.addRow(new Object[0]);
+              JtableInfoDeTablas.setValueAt(result.getString(1), i,0);
+              JtableInfoDeTablas.setValueAt(result.getString(2), i,1 );
+              JtableInfoDeTablas.setValueAt(result.getString(3), i,2 );
+              JtableInfoDeTablas.setValueAt(result.getString(4), i,3 );
+          }
+          result = datametadata.getColumns(null, "empresa", "departamentos","%" );
+          DefaultTableModel modelde =(DefaultTableModel) jTableInfoDept.getModel();
+          for(int i=0;result.next();i++){
+              modelde.addRow(new Object[0]);
+              jTableInfoDept.setValueAt(result.getString(4), i,0 );
+              jTableInfoDept.setValueAt(result.getString(6), i,1 );
+              jTableInfoDept.setValueAt(result.getString(7), i,2 );
+              jTableInfoDept.setValueAt(result.getString(18), i,3 );
+          }  
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPanelMetadatosComponentShown
+
+    private void ProceduresComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProceduresComponentShown
+            ResultSet procedures;
+        
+        try {
+            datametadata = conexion.getMetaData();
+            procedures = datametadata.getProcedures("empresa", "empresa", "%");
+           
+            DefaultListModel<String> procedurenames = new DefaultListModel<String>();
+            int a=0;
+            while (procedures.next()){
+                String nombre = procedures.getString("PROCEDURE_NAME");
+                procedurenames.add(a, nombre);
+                a++;  
+            }
+            jListprocedures.setModel(procedurenames);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ProceduresComponentShown
       
     private void desactivarflechas (){
     
@@ -2007,8 +2080,7 @@ public class GUI extends javax.swing.JFrame {
             deptNoEmpleadosjTextField.setText(result.getString("dept_no"));
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+        }    
     }
 
     private void setVoidText() {
@@ -2029,6 +2101,13 @@ public class GUI extends javax.swing.JFrame {
         atrasEmpleadosButton.setEnabled(false);
         primeroEmpleadosButton.setEnabled(false);
         ultimoEmpleadosButton.setEnabled(false);
+    }
+    private void activarEmpleadosFlechas() {
+        
+        adelanteEmpleadosButton.setEnabled(true);
+        atrasEmpleadosButton.setEnabled(true);
+        primeroEmpleadosButton.setEnabled(true);
+        ultimoEmpleadosButton.setEnabled(true);
     }
 
     private void setEnableAllTextFieldsEmpleados() {
